@@ -1,0 +1,480 @@
+user registration : http://127.0.0.1:8000/register
+
+{
+    "username":"giri",
+    "password":1234,
+    "email":"giri@mail.com"
+}
+
+output :
+
+{
+    "status": "You have successfully registered !"
+}
+
+****************************************************************
+
+login : http://127.0.0.1:8000/login
+
+{
+    "username":"giri",
+    "password":1234
+}
+
+output :
+{
+    "Status": "access token created",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2NzkxNTUzMywianRpIjoiMDc4ZmZmNGUtNWRhMy00OWQ1LWIwYmItZjA5NDA3OWZhNTI3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdpcmkiLCJuYmYiOjE2Njc5MTU1MzMsImV4cCI6MTY2NzkyOTkzM30.aOCFMoKINnnxHQs0jXr5BL-x6CwyizKrsRXFS2VdSmI"
+}
+
+*****************************************************************
+
+profile : http://127.0.0.1:8000/profile
+
+only authenticated user can use this
+output :
+{
+    "Status": "profile page is active"
+}
+
+*****************************************************************
+logout : http://127.0.0.1:8000/logout
+
+output :
+{
+    "Status": "Access token revoked"
+}
+
+*****************************************************************
+addmovie : http://127.0.0.1:8000/addmovie
+
+{
+    "name":"blackpanther2",
+    "releasedate":"11-11-2022",
+    "genre":"action",
+    "review":"the film is an emotional ride"
+}
+
+output :
+{ "status": "movie added successfully" }
+
+*****************************************************************
+login : http://127.0.0.1:8000/login
+
+{
+    "username":"giri",
+    "password":1234
+}
+
+output :
+{
+    "Status": "access token created",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2NzkxNTUzMywianRpIjoiMDc4ZmZmNGUtNWRhMy00OWQ1LWIwYmItZjA5NDA3OWZhNTI3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdpcmkiLCJuYmYiOjE2Njc5MTU1MzMsImV4cCI6MTY2NzkyOTkzM30.aOCFMoKINnnxHQs0jXr5BL-x6CwyizKrsRXFS2VdSmI"
+}
+
+collection name movie_col
+
+collection created in db is
+{ "_id" : ObjectId("636a6293feff7c1e4edf1ee1"),
+   "name" : "blackpanther2",
+    "releasedate" : "11-11-2022",
+     "genre" : "action",
+      "upvotes" : 0,
+       "downvotes" : 0,
+        "review" : "the film is an emotional ride"
+ }
+
+
+*****************************************************************
+viewmovies : http://127.0.0.1:8000/viewmovies
+
+{
+    "username":"giri",
+    "password":1234
+}
+
+output :
+[
+  {
+    "downvotes": 0,
+    "genre": "action",
+    "name": "rrr",
+    "releasedate": "25-3-2022",
+    "review": "wonderful periodic action",
+    "upvotes": 0
+  },
+  {
+    "downvotes": 0,
+    "genre": "comedy",
+    "name": "f3",
+    "releasedate": "25-3-2022",
+    "review": "very very funny",
+    "upvotes": 0
+  },
+  {
+    "downvotes": 0,
+    "genre": "action",
+    "name": "blackpanther2",
+    "releasedate": "11-11-2022",
+    "review": "the film is an emotional ride",
+    "upvotes": 0
+  }
+]
+
+
+*****************************************************************
+editmovie : http://127.0.0.1:8000/editmovie
+
+{
+    "Filter":
+    {
+        "name":"blackpanther2"
+    },
+    "DataToBeUpdated":
+    {
+        "genre":"fantasy"
+    }
+
+}
+
+output :
+{
+    "Status": "Succesfully Updated"
+}
+*****************************************************************
+deletemovie : http://127.0.0.1:8000/deletemovie
+
+{
+    "Filter":
+    {
+        "name":"dangal"
+    }
+}
+
+output :
+{
+    "Status": "Succesfully Deleted"
+}
+
+*****************************************************************
+setgenre : http://127.0.0.1:8000/setgenre
+
+{
+    "Filter":
+    {
+        "username":"ashik"
+    },
+    "DataToBeUpdated":
+    {
+        "genre":"action"
+    }
+
+}
+
+{
+    "Status": "Succesfully Updated The Genre"
+}
+
+*****************************************************************
+voting : http://127.0.0.1:8000/voting
+
+NOTE : use -1 for downvoting and 1 for upvoting
+
+{
+    "username":"giri",
+    "name":"wakandaforever",
+    "vote":1
+}
+
+output :
+{
+    "status": "upvoted successfully"
+}
+
+#2
+{
+    "username":"ashik",
+    "name":"wakandaforever",
+    "vote":1
+}
+
+output :
+{
+    "status": "upvoted successfully"
+}
+
+#3
+{
+    "username":"Hema",
+    "name":"wakandaforever",
+    "vote":1
+}
+
+output :
+{
+    "status": "upvoted successfully"
+}
+#4
+{
+    "username":"guru",
+    "name":"wakandaforever",
+    "vote":-1
+}
+
+output :
+{
+    "status": "downvoted successfully"
+}
+*****************************************************************
+recommendations : http://127.0.0.1:8000/recommendations
+
+{
+    "username":"ashik"
+}
+
+output :
+[
+    {
+        "downvotes": 0,
+        "genre": "action",
+        "lanugage": "telugu",
+        "name": "bahubali2",
+        "releasedate": "28-4-2017",
+        "upvotes": 0,
+        "year": "2017"
+    },
+    {
+        "downvotes": 0,
+        "genre": "action",
+        "lanugage": "kannada",
+        "name": "kgf",
+        "releasedate": "20-12-2018",
+        "upvotes": 0,
+        "year": "2018"
+    },
+    {
+        "downvotes": 3,
+        "genre": "action",
+        "name": "kanthara",
+        "releasedate": "1-10-2022",
+        "review": "terrific action",
+        "upvotes": 0
+    }
+]
+
+*****************************************************************
+sortmovies : http://127.0.0.1:8000/listmovies
+
+{
+    "sorting_key":"releasedate"
+}
+
+output :
+[
+    {
+        "downvotes": 1,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "baba",
+        "releasedate": "Tue, 15 Jan 2002 00:00:00 GMT",
+        "upvotes": 1,
+        "year": "2002"
+    },
+    {
+        "downvotes": 3,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "chandramukhi",
+        "releasedate": "Thu, 14 Apr 2005 00:00:00 GMT",
+        "upvotes": 3,
+        "year": "2005"
+    },
+    {
+        "downvotes": 1,
+        "genre": "comedy",
+        "lanugage": "telugu",
+        "name": "kick",
+        "releasedate": "Thu, 02 Apr 2009 00:00:00 GMT",
+        "upvotes": 2,
+        "year": "2010"
+    },
+    {
+        "downvotes": 1,
+        "genre": "thriller",
+        "lanugage": "tamil",
+        "name": "i",
+        "releasedate": "Tue, 13 Jan 2015 00:00:00 GMT",
+        "upvotes": 1,
+        "year": "2015"
+    },
+    {
+        "downvotes": 4,
+        "genre": "comedy",
+        "name": "don",
+        "releasedate": "Sun, 01 May 2022 00:00:00 GMT",
+        "review": "superb comedy",
+        "upvotes": 3
+    },
+    {
+        "downvotes": 0,
+        "genre": "action",
+        "name": "PS1",
+        "releasedate": "Fri, 30 Sep 2022 00:00:00 GMT",
+        "review": "superb periodic drama",
+        "upvotes": 0
+    },
+    {
+        "downvotes": 3,
+        "genre": "action",
+        "name": "kanthara",
+        "releasedate": "Sat, 01 Oct 2022 00:00:00 GMT",
+        "review": "terrific action",
+        "upvotes": 0
+    },
+    {
+        "downvotes": 0,
+        "genre": "comedy",
+        "name": "lovetoday",
+        "releasedate": "Fri, 04 Nov 2022 00:00:00 GMT",
+        "review": "funny family comedy drama. nice picture",
+        "upvotes": 0
+    },
+    {
+        "downvotes": 1,
+        "genre": "fantasy",
+        "name": "wakandaforever",
+        "releasedate": "Fri, 11 Nov 2022 00:00:00 GMT",
+        "review": "the film is an emotional ride",
+        "upvotes": 1
+    }
+]
+
+#2 upvotes
+{
+  "sorting_key":"upvotes"
+}
+
+output:
+[
+    {
+        "downvotes": 3,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "chandramukhi",
+        "releasedate": "14-4-2005",
+        "upvotes": 3,
+        "year": "2005"
+    },
+    {
+        "downvotes": 4,
+        "genre": "comedy",
+        "name": "don",
+        "releasedate": "1-5-2022",
+        "review": "superb comedy",
+        "upvotes": 3
+    },
+    {
+        "downvotes": 1,
+        "genre": "comedy",
+        "lanugage": "telugu",
+        "name": "kick",
+        "releasedate": "2-4-2009",
+        "upvotes": 2,
+        "year": "2010"
+    },
+    {
+        "downvotes": -1,
+        "genre": "thriller",
+        "lanugage": "tamil",
+        "name": "i",
+        "releasedate": "13-1-2015",
+        "upvotes": 1,
+        "year": "2015"
+    },
+    {
+        "downvotes": 1,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "baba",
+        "releasedate": "15-1-2002",
+        "upvotes": 1,
+        "year": "2002"
+    },
+    {
+        "downvotes": -1,
+        "genre": "fantasy",
+        "name": "wakandaforever",
+        "releasedate": "11-11-2022",
+        "review": "the film is an emotional ride",
+        "upvotes": 1
+    },
+    {
+        "downvotes": 0,
+        "genre": "action",
+        "lanugage": "telugu",
+        "name": "bahubali2",
+        "releasedate": "28-4-2017",
+        "upvotes": 0,
+        "year": "2017"
+    }
+]
+
+#3
+{
+  "sorting_key" :"downvotes"
+}
+output:
+[
+    {
+        "downvotes": 4,
+        "genre": "comedy",
+        "name": "don",
+        "releasedate": "1-5-2022",
+        "review": "superb comedy",
+        "upvotes": 3
+    },
+    {
+        "downvotes": 3,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "chandramukhi",
+        "releasedate": "14-4-2005",
+        "upvotes": 3,
+        "year": "2005"
+    },
+    {
+        "downvotes": 3,
+        "genre": "action",
+        "name": "kanthara",
+        "releasedate": "1-10-2022",
+        "review": "terrific action",
+        "upvotes": 0
+    },
+    {
+        "downvotes": 1,
+        "genre": "comedy",
+        "lanugage": "telugu",
+        "name": "kick",
+        "releasedate": "2-4-2009",
+        "upvotes": 2,
+        "year": "2010"
+    },
+    {
+        "downvotes": 1,
+        "genre": "fantasy",
+        "lanugage": "tamil",
+        "name": "baba",
+        "releasedate": "15-1-2002",
+        "upvotes": 1,
+        "year": "2002"
+    },
+    {
+        "downvotes": 0,
+        "genre": "action",
+        "lanugage": "telugu",
+        "name": "bahubali2",
+        "releasedate": "28-4-2017",
+        "upvotes": 0,
+        "year": "2017"
+    }
+  ]
