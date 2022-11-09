@@ -160,7 +160,7 @@ def setgenre():
 @app.route('/voting',methods=['PUT'])
 @jwt_required()
 def voting():
-    pdb.set_trace()
+    # pdb.set_trace()
     data = request.json
     username = data['username']
     moviename = data['name']
