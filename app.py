@@ -117,7 +117,7 @@ def addmovie():
 @app.route('/viewmovies')
 def movielist():
     documents = movie_col.find()
-    output = [{item: data[item] for item in data if item!='_id'} for data in documents]
+    output = [{item: data[item] for item in data if len(item)<10 and item!="_id"} for data in documents]
     return jsonify(output)
 
 @app.route('/editmovie/<movieid>/',methods=['PUT'])
@@ -151,7 +151,7 @@ def getrecommendations():
     email = get_jwt_identity()
     fav_genre = user_col.find_one({"email":email})['genre']
     documents = movie_col.find({"genre":fav_genre})
-    output = [{item: data[item] for item in data if item!='_id'} for data in documents]
+    output = [{item: data[item] for item in data if len(item)<10 and item!='_id'} for data in documents]
     return jsonify(output)
 
 @app.route('/sortmovies')
@@ -165,7 +165,7 @@ def sortmovies():
         for movie in movies:
             movie['date'] = datetime.strptime(movie['date'],"%d-%m-%Y").date()
         sorted_movies=sorted(movies,key=lambda i:i['date'])
-        output = [{item:data[item]for item in data if item!='_id'}for data in sorted_movies]
+        output = [{item:data[item]for item in data if len(item)<10 and item!='_id'}for data in sorted_movies]
     elif sorting_key=='upvotes':
         sorted_movies = movie_col.find().sort("upvotes",-1)
     elif sorting_key =='downvotes':
@@ -173,7 +173,7 @@ def sortmovies():
     else:
         status = "you must give a valid sorting key"
         return jsonify({"status":status})
-    output = [{item: data[item] for item in data if item!='_id'} for data in sorted_movies]
+    output = [{item: data[item] for item in data if len(item)<10 and item!='_id'} for data in sorted_movies]
     output = output if order=="desc" else output[-1::-1]
     return jsonify(output)
 
@@ -210,5 +210,4 @@ def voting(movieid):
     return jsonify(output)
 
 if __name__=='__main__':
-    # pdb.set_trace()
     app.run(debug=True,port=8000)
