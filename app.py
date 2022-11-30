@@ -11,6 +11,8 @@ import re
 from datetime import timedelta,datetime
 from bson.objectid import ObjectId
 
+import pdb
+
 from pymongo import MongoClient
 
 ACCESS_EXPIRES = timedelta(hours=10)
@@ -105,7 +107,7 @@ def addmovie():
         date  = request.json['date']
         genre = request.json['genre']
         check_movie = movie_col.find_one({'movie':movie})
-        inserted_id = movie_col.insert_one({'movie':movie,'date':date,'genre':genre,'upvotes':0,'downvotes':0 }).inserted_id
+        inserted_id = movie_col.insert_one({'movie':movie,'date':date,'genre':genre,'upvotes':0,'downvotes':0 ,'reviews':{}}).inserted_id
         output = {
             'status': "movie added successfully",
             'inserted_id' : str(inserted_id)
@@ -209,5 +211,24 @@ def voting(movieid):
     output = { "status":"voted successfully"}
     return jsonify(output)
 
+@app.route("/addreview/<movieid>",methods=['PUT'])
+@jwt_required()
+def addreview(movieid):
+    movieid = ObjectId(movieid)
+    current_movie = movie_col.find_one({"_id":movieid})
+    current_user_email = get_jwt_identity()
+    current_user = user_col.find_one({"email":current_user_email})
+    user_id = str(current_user['_id'])
+    user_name = current_user['username']
+    review = request.json['review']
+    if user_id in current_movie['reviews']:
+        response = movie_col.update_one({"_id":movieid},{"$set":{"reviews."+user_id:(user_name,review)}})
+        output = "review updated successfully" if response.modified_count >0 else "nothing updated"
+    else:
+        old_reviews = current_movie['reviews']
+        old_reviews[user_id] = (user_name,review)
+        response = movie_col.update_one({"_id":movieid},{"$set":{"reviews":old_reviews}})
+        output = "review added Succesfully"
+    return jsonify({"status" :output})
 if __name__=='__main__':
     app.run(debug=True,port=8000)
